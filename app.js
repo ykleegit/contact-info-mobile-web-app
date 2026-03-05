@@ -61,7 +61,7 @@ function addRow(contact) {
     var row = tcontent.insertRow();
     var nameCell = row.insertCell();
     nameCell.setAttribute('data-label', "Name");
-    nameCell.innerHTML = contact.name;
+    nameCell.innerHTML = contact.name + " (" + contact.gender + ")";
     var emailCell = row.insertCell();
     emailCell.setAttribute('data-label', "Email");
     emailCell.innerHTML = contact.email;
