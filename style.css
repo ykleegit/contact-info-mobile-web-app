@@ -17,6 +17,20 @@ table th {
     text-transform: uppercase;
 }
 
+.sort-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    padding: 2px 5px;
+    margin-left: 5px;
+}
+
+.sort-btn:hover {
+    background-color: #f0f0f0;
+    border-radius: 3px;
+}
+
 @media screen and (max-width: 600px) {
     table caption {
         font-size: 1.5em;

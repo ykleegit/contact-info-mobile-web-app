@@ -1,3 +1,6 @@
+var allContacts = [];
+var sortOrder = {};
+
 function initialize() {
     let status = "* Offline *";
     if (navigator.onLine) {
@@ -38,6 +41,7 @@ function retrieveContacts() {
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
             var contacts = JSON.parse(xhr.response).contacts;
+            allContacts = contacts;
             displayContacts(contacts);
 
             // Store contact data to localstorage
@@ -53,6 +57,9 @@ function retrieveContacts() {
 }
 
 function displayContacts(contacts) {
+    allContacts = contacts;
+    var tcontent = document.getElementById("tcontent");
+    tcontent.innerHTML = "";
     contacts.forEach(addRow);
 }
 
@@ -71,4 +78,37 @@ function addRow(contact) {
     var mobileCell = row.insertCell();
     mobileCell.setAttribute('data-label', "Mobile");
     mobileCell.innerHTML = contact.phone.mobile;
+}
+
+function sortTable(field) {
+    if (!sortOrder[field]) {
+        sortOrder[field] = 'asc';
+    } else {
+        sortOrder[field] = sortOrder[field] === 'asc' ? 'desc' : 'asc';
+    }
+
+    var sortedContacts = [...allContacts];
+    
+    sortedContacts.sort(function(a, b) {
+        var valueA, valueB;
+        
+        if (field === 'name') {
+            valueA = a.name.toLowerCase();
+            valueB = b.name.toLowerCase();
+        } else if (field === 'email') {
+            valueA = a.email.toLowerCase();
+            valueB = b.email.toLowerCase();
+        } else if (field === 'mobile') {
+            valueA = a.phone.mobile;
+            valueB = b.phone.mobile;
+        }
+        
+        if (sortOrder[field] === 'asc') {
+            return valueA > valueB ? 1 : valueA < valueB ? -1 : 0;
+        } else {
+            return valueA < valueB ? 1 : valueA > valueB ? -1 : 0;
+        }
+    });
+    
+    displayContacts(sortedContacts);
 }
